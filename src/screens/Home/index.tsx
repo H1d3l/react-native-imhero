@@ -1,4 +1,11 @@
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { styles } from "./styles";
 import { Participant } from "../../components/Participant";
 
@@ -6,6 +13,22 @@ export function Home() {
   function handleParticipantAdd(): void {
     console.log("clicou");
   }
+
+  function handleParticipantRemove(name: string): void {
+    console.log(`clicou ${name}`);
+  }
+
+  const participants = [
+    "Rodrigo",
+    "Vini",
+    "Folio",
+    "Dol",
+    "Vision",
+    "Anag",
+    "Cedula",
+    "Anagato",
+    "Apel",
+  ];
 
   return (
     <View style={styles.container}>
@@ -22,9 +45,24 @@ export function Home() {
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>
-      <Participant/>
-      <Participant/>
-
+      <FlatList
+        data={participants}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => (
+          <Participant
+            key={item}
+            name={item}
+            onRemove={() => handleParticipantRemove(item)}
+          />
+        )}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => (
+          <Text style={styles.listEmptyText}>
+            Ninguém chegou no evento ainda? Adicione participantes a sua lista
+            de presença.
+          </Text>
+        )}
+      />
     </View>
   );
 }
